@@ -7,13 +7,18 @@
 (enable-console-print!)
 (ws-repl/connect "ws://localhost:9001")
 
-(def app-state (atom {:text "Hello world!"}))
+(def app-state (atom {:text "Hello world!"
+                      :list ["one" "two" "three"]}))
 
 (defcomponent title
   [data owner]
   (render [_] (dom/h1 (:text data))))
 
+(defcomponent list
+  [data owner]
+  (render [_] (dom/ul (for [item (:list data)] (dom/li item)))))
+
 (om/root
-  title
+  list
   app-state
   {:target (. js/document (getElementById "app"))})
