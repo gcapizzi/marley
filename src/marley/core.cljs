@@ -1,15 +1,17 @@
 (ns marley.core
   (:require [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]))
+            [om-tools.core :refer-macros [defcomponent]]
+            [om-tools.dom :as dom :include-macros true]))
 
 (enable-console-print!)
 
 (def app-state (atom {:text "Hello world!"}))
 
+(defcomponent title
+  [data owner]
+  (render [_] (dom/h1 (:text data))))
+
 (om/root
-  (fn [app owner]
-    (reify om/IRender
-      (render [_]
-        (dom/h1 nil (:text app)))))
+  title
   app-state
   {:target (. js/document (getElementById "app"))})
