@@ -8,13 +8,12 @@
                  [prismatic/om-tools "0.3.6"]
                  [om "0.8.0-alpha1"]]
 
-  :plugins [[lein-cljsbuild "1.0.4-SNAPSHOT"]]
-
   :source-paths ["src"]
 
-  :cljsbuild {:builds [{:id "marley"
-                        :source-paths ["src"]
-                        :compiler {:output-to "marley.js"
-                                   :output-dir "out"
-                                   :optimizations :none
-                                   :source-map true}}]})
+  :profiles {:dev {:plugins [[lein-cljsbuild "1.0.4-SNAPSHOT"]]
+                   :cljsbuild {:builds [{:id "marley"
+                                         :source-paths ["src"]
+                                         :compiler {:output-to "marley.js"
+                                                    :output-dir "out"
+                                                    :optimizations :none
+                                                    :source-map true}}]}}})
