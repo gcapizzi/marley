@@ -11,11 +11,9 @@
 
   :source-paths ["src"]
 
-  :cljsbuild {
-    :builds [{:id "marley"
-              :source-paths ["src"]
-              :compiler {
-                :output-to "marley.js"
-                :output-dir "out"
-                :optimizations :none
-                :source-map true}}]})
+  :cljsbuild {:builds [{:id "marley"
+                        :source-paths ["src"]
+                        :compiler {:output-to "marley.js"
+                                   :output-dir "out"
+                                   :optimizations :none
+                                   :source-map true}}]})
