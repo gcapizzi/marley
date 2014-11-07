@@ -7,18 +7,28 @@
 (enable-console-print!)
 (ws-repl/connect "ws://localhost:9001")
 
-(def app-state (atom {:text "Hello world!"
-                      :list ["one" "two" "three"]}))
+(def app-state
+  (atom
+    {:cards [{:title "First card" :description "First card description"}
+             {:title "Second card" :description "Second card description"}
+             {:title "Third card" :description "Third card description"}]}))
 
-(defcomponent title
-  [data owner]
-  (render [_] (dom/h1 (:text data))))
+(defcomponent card-view
+  [card owner]
+  (render [this]
+    (dom/div
+      (dom/h3 (:title card))
+      (dom/p (:description card))
+      (dom/button "delete"))))
 
-(defcomponent list
+(defcomponent cards-view
   [data owner]
-  (render [_] (dom/ul (for [item (:list data)] (dom/li item)))))
+  (render [this]
+    (dom/div
+      (dom/h2 "Todo")
+      (om/build-all card-view (:cards data)))))
 
 (om/root
-  list
+  cards-view
   app-state
   {:target (. js/document (getElementById "app"))})
