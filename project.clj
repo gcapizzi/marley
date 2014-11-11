@@ -9,14 +9,19 @@
                  [om "0.8.0-alpha1"]
                  [weasel "0.4.2"]]
 
-  :source-paths ["src"]
+  :plugins [[lein-cljsbuild "1.0.4-SNAPSHOT"]
+            [com.cemerick/clojurescript.test "0.3.1"]]
+
+  :cljsbuild {:builds [{:id "tests"
+                        :source-paths ["src" "test"]
+                        :compiler {:output-to "marley.js"
+                                   :output-dir "out"
+                                   :optimizations :whitespace
+                                   :preamble ["react/react.min.js"]
+                                   :pretty-print true}}]
+              :test-commands {"tests" ["phantomjs" :runner
+                                       "test/vendor/bind_polyfill.js"
+                                       "marley.js"]}}
 
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.1.3"]]
-                   :plugins [[lein-cljsbuild "1.0.4-SNAPSHOT"]]
-                   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
-                   :cljsbuild {:builds [{:id "marley"
-                                         :source-paths ["src"]
-                                         :compiler {:output-to "marley.js"
-                                                    :output-dir "out"
-                                                    :optimizations :none
-                                                    :source-map true}}]}}})
+                   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}})
