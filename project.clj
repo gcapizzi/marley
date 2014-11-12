@@ -6,7 +6,7 @@
                  [org.clojure/clojurescript "0.0-2371"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [prismatic/om-tools "0.3.6"]
-                 [om "0.8.0-alpha1"]
+                 [om "0.8.0-alpha2"]
                  [weasel "0.4.2"]]
 
   :plugins [[lein-cljsbuild "1.0.4-SNAPSHOT"]
