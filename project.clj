@@ -20,7 +20,7 @@
                                    :preamble ["react/react.min.js"]
                                    :pretty-print true}}]
               :test-commands {"tests" ["phantomjs" :runner
-                                       "test/vendor/bind_polyfill.js"
+                                       "test/vendor/es5-shim.min.js"
                                        "marley.js"]}}
 
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.1.3"]]
