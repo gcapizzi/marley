@@ -28,7 +28,11 @@
       (dom/h2 "Todo")
       (om/build-all card-view (:cards data)))))
 
-; (om/root
-;   cards-view
-;   app-state
-;   {:target (. js/document (getElementById "app"))})
+(defn bootstrap!
+  []
+  (om/root
+    cards-view
+    app-state
+    {:target (. js/document (getElementById "app"))}))
+
+(set! (.-onload js/window) bootstrap!)
