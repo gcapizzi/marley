@@ -28,7 +28,7 @@
       (dom/h2 "Todo")
       (om/build-all card-view (:cards data)))))
 
-(om/root
-  cards-view
-  app-state
-  {:target (. js/document (getElementById "app"))})
+; (om/root
+;   cards-view
+;   app-state
+;   {:target (. js/document (getElementById "app"))})
