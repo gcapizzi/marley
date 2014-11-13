@@ -26,3 +26,11 @@
     (om/root core/card-view card {:target c})
     (is (= "a title" (dommy/text (dommy/sel1 c :h3))))
     (is (= "a description" (dommy/text (dommy/sel1 c :p))))))
+
+(deftest cards-view-test
+  (let [c (new-container!)
+        data {:cards [{:title "one" :description "description one"}
+                      {:title "two" :description "description two"}
+                      {:title "three" :description "description three"}]}]
+    (om/root core/cards-view data {:target c})
+    (is (= ["one" "two" "three"] (map dommy/text (dommy/sel ["#todo" :div :h3]))))))

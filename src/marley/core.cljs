@@ -24,7 +24,7 @@
 (defcomponent cards-view
   [data owner]
   (render [this]
-    (dom/div
+    (dom/div {:id "todo"}
       (dom/h2 "Todo")
       (om/build-all card-view (:cards data)))))
 
