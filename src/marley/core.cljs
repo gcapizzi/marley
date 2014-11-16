@@ -24,20 +24,20 @@
       (dom/button {:on-click (fn [e] (put! delete @card))} "delete"))))
 
 (defcomponent cards-view
-  [data owner]
+  [app owner]
   (init-state [_]
     {:delete (chan)})
   (will-mount [_]
     (let [delete (om/get-state owner :delete)]
       (go (loop []
         (let [card (<! delete)]
-          (om/transact! data :cards
+          (om/transact! app :cards
             (fn [xs] (vec (remove #(= card %) xs))))
           (recur))))))
   (render-state [this {:keys [delete]}]
     (dom/div {:id "todo"}
       (dom/h2 "Todo")
-      (om/build-all card-view (:cards data) {:init-state {:delete delete}}))))
+      (om/build-all card-view (:cards app) {:init-state {:delete delete}}))))
 
 (defn bootstrap!
   []

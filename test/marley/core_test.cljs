@@ -14,18 +14,18 @@
     (is (= "a title" (dommy/text (dommy/sel1 c :h3))))
     (is (= "a description" (dommy/text (dommy/sel1 c :p))))))
 
-(def data {:cards [{:title "one" :description "description one"}
-                   {:title "two" :description "description two"}
-                   {:title "three" :description "description three"}]})
+(def app {:cards [{:title "one" :description "description one"}
+                  {:title "two" :description "description two"}
+                  {:title "three" :description "description three"}]})
 
 (deftest cards-view-test
   (let [c (utils/new-container!)]
-    (om/root core/cards-view data {:target c})
+    (om/root core/cards-view app {:target c})
     (is (= ["one" "two" "three"] (map dommy/text (dommy/sel c ["#todo" :div :h3]))))))
 
 (deftest ^:async delete-a-card-test
   (let [c (utils/new-container!)]
-    (om/root core/cards-view data {:target c})
+    (om/root core/cards-view app {:target c})
     (utils/fire! (dommy/sel1 c ["div:first-child" :button]) :click)
     (js/setTimeout
       (fn []
