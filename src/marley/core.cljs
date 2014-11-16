@@ -1,7 +1,9 @@
 (ns marley.core
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [om.core :as om :include-macros true]
             [om-tools.core :refer-macros [defcomponent]]
             [om-tools.dom :as dom :include-macros true]
+            [cljs.core.async :refer [put! chan <!]]
             [weasel.repl :as ws-repl]))
 
 (enable-console-print!)
@@ -15,18 +17,27 @@
 
 (defcomponent card-view
   [card owner]
-  (render [this]
+  (render-state [this {:keys [delete]}]
     (dom/div
       (dom/h3 (:title card))
       (dom/p (:description card))
-      (dom/button "delete"))))
+      (dom/button {:on-click (fn [e] (put! delete @card))} "delete"))))
 
 (defcomponent cards-view
   [data owner]
-  (render [this]
+  (init-state [_]
+    {:delete (chan)})
+  (will-mount [_]
+    (let [delete (om/get-state owner :delete)]
+      (go (loop []
+        (let [card (<! delete)]
+          (om/transact! data :cards
+            (fn [xs] (vec (remove #(= card %) xs))))
+          (recur))))))
+  (render-state [this {:keys [delete]}]
     (dom/div {:id "todo"}
       (dom/h2 "Todo")
-      (om/build-all card-view (:cards data)))))
+      (om/build-all card-view (:cards data) {:init-state {:delete delete}}))))
 
 (defn bootstrap!
   []
