@@ -1,7 +1,7 @@
 (ns marley.core-test
   (:require-macros [cemerick.cljs.test :refer (is deftest testing done)])
   (:require [cemerick.cljs.test :as t]
-            [marley.test-utils :as utils]
+            [marley.test-utils :as utils :refer-macros [poll]]
             [dommy.core :as dommy :refer-macros [sel sel1]]
             [om.core :as om :include-macros true]
             [marley.core :as core]))
@@ -27,7 +27,5 @@
   (let [c (utils/new-container!)]
     (om/root core/cards-view app {:target c})
     (utils/fire! (dommy/sel1 c ["div:first-child" :button]) :click)
-    (js/setTimeout
-      (fn []
-        (is (= ["two" "three"] (map dommy/text (dommy/sel c ["#todo" :div :h3]))))
-        (done)) 1000)))
+    (poll
+      (is (= ["two" "three"] (map dommy/text (dommy/sel c ["#todo" :div :h3])))))))
