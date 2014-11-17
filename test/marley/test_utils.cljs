@@ -17,7 +17,6 @@
 
 (defn fire!
   [node event-type]
-  (if (.-createEvent js/document)
-    (let [event (.createEvent js/document "Event")]
-      (.initEvent event (name event-type) true true)
-      (.dispatchEvent node event))))
+  (let [event (.createEvent js/document "Event")]
+    (.initEvent event (name event-type) true true)
+    (.dispatchEvent node event)))
