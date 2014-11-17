@@ -28,3 +28,12 @@
     (utils/fire! (dommy/sel1 c ["div:first-child" :button]) :click)
     (poll
       (is (= ["two" "three"] (map dommy/text (dommy/sel c ["#todo" :div :h3])))))))
+
+(deftest ^:async add-a-card-test
+  (let [c (utils/new-container!)]
+    (om/root core/cards-view app {:target c})
+    (let [input (dommy/sel1 c "input[type=text]")]
+      (dommy/set-value! input "four")
+      (utils/fire! input :keypress (fn [e] (do (set! (.-keyCode e) 13) e)))
+      (poll
+        (is (= ["one" "two" "three" "four"] (map dommy/text (dommy/sel c ["#todo" :div :h3]))))))))

@@ -16,7 +16,8 @@
     (dommy/sel1 s)))
 
 (defn fire!
-  [node event-type]
-  (let [event (.createEvent js/document "Event")]
+  [node event-type & [update-event!]]
+  (let [update-event! (or update-event! identity)
+        event (.createEvent js/document "Event")]
     (.initEvent event (name event-type) true true)
-    (.dispatchEvent node event)))
+    (.dispatchEvent node (update-event! event))))

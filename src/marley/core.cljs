@@ -23,6 +23,15 @@
       (dom/p (:description card))
       (dom/button {:on-click (fn [e] (put! delete @card))} "delete"))))
 
+(defn add-card-on-enter
+  [e app owner]
+  (if (= "Enter" (.-key e))
+    (let [input (om/get-node owner "new-card")
+          new-card-title (.-value input)
+          new-card {:title new-card-title :description ""}]
+        (om/transact! app :cards #(conj % new-card))
+        (set! (.-value input) ""))))
+
 (defcomponent cards-view
   [app owner]
   (init-state [_]
@@ -37,7 +46,11 @@
   (render-state [this {:keys [delete]}]
     (dom/div {:id "todo"}
       (dom/h2 "Todo")
-      (om/build-all card-view (:cards app) {:init-state {:delete delete}}))))
+      (om/build-all card-view (:cards app) {:init-state {:delete delete}})
+      (dom/input {:type "text"
+                  :ref "new-card"
+                  :auto-focus true
+                  :on-key-press #(add-card-on-enter % app owner)}))))
 
 (defn bootstrap!
   []
