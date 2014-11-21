@@ -15,14 +15,14 @@
 
   :cljsbuild {:builds [{:id "tests"
                         :source-paths ["src" "test"]
-                        :compiler {:output-to "marley.js"
+                        :compiler {:output-to "public/js/app.js"
                                    :output-dir "out"
                                    :optimizations :whitespace
                                    :preamble ["react/react.min.js"]
                                    :pretty-print true}}]
               :test-commands {"tests" ["phantomjs" :runner
                                        "test/vendor/es5-shim.min.js"
-                                       "marley.js"]}}
+                                       "public/js/app.js"]}}
 
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.1.3"]]
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}})
