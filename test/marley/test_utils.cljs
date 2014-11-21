@@ -21,3 +21,12 @@
         event (.createEvent js/document "Event")]
     (.initEvent event (name event-type) true true)
     (.dispatchEvent node (update-event! event))))
+
+(defn fire-enter-keypress!
+  [node]
+  (fire! node :keypress (fn [e] (do (set! (.-keyCode e) 13) e))))
+
+(defn insert-value!
+  [input value]
+  (dommy/set-value! input value)
+  (fire-enter-keypress! input))

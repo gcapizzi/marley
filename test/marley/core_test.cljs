@@ -20,20 +20,22 @@
 (deftest cards-view-test
   (let [c (utils/new-container!)]
     (om/root core/cards-view app {:target c})
-    (is (= ["one" "two" "three"] (map dommy/text (dommy/sel c ["#todo" :div :h3]))))))
+    (let [titles (map dommy/text (dommy/sel c ["#todo" :div :h3]))]
+      (is (= ["one" "two" "three"] titles)))))
 
 (deftest ^:async delete-a-card-test
   (let [c (utils/new-container!)]
     (om/root core/cards-view app {:target c})
     (utils/fire! (dommy/sel1 c ["div:first-child" :button]) :click)
     (poll
-      (is (= ["two" "three"] (map dommy/text (dommy/sel c ["#todo" :div :h3])))))))
+      (let [titles (map dommy/text (dommy/sel c ["#todo" :div :h3]))]
+        (is (= ["two" "three"] titles))))))
 
 (deftest ^:async add-a-card-test
   (let [c (utils/new-container!)]
     (om/root core/cards-view app {:target c})
     (let [input (dommy/sel1 c "input[type=text]")]
-      (dommy/set-value! input "four")
-      (utils/fire! input :keypress (fn [e] (do (set! (.-keyCode e) 13) e)))
+      (utils/insert-value! input "four")
       (poll
-        (is (= ["one" "two" "three" "four"] (map dommy/text (dommy/sel c ["#todo" :div :h3]))))))))
+        (let [titles (map dommy/text (dommy/sel c ["#todo" :div :h3]))]
+          (is (= ["one" "two" "three" "four"] titles)))))))
