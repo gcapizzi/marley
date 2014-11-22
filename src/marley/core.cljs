@@ -27,8 +27,7 @@
   [e app owner]
   (if (= "Enter" (.-key e))
     (let [input (om/get-node owner "new-card")
-          new-card-title (.-value input)
-          new-card {:title new-card-title :description ""}]
+          new-card {:title (.-value input) :description ""}]
         (om/transact! app :cards #(conj % new-card))
         (set! (.-value input) ""))))
 
