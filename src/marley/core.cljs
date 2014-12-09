@@ -21,7 +21,7 @@
     (dom/div
       (dom/h3 (:title card))
       (dom/p (:description card))
-      (dom/button {:on-click (fn [e] (put! delete @card))} "delete"))))
+      (dom/button {:on-click #(put! delete @card)} "delete"))))
 
 (defn add-card-on-enter
   [e app owner]
